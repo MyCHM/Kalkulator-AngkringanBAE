@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kalkulator Makanan</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #fff9e6;
+      padding: 30px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ffb300;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    .menu-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .menu-item span {
+      flex: 1;
+    }
+
+    .menu-item input {
+      width: 80px;
+      padding: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px;
+      width: 48%;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .btn-hitung {
+      background-color: #ffb300;
+      color: #fff;
+    }
+
+    .btn-reset {
+      background-color: #ddd;
+      color: #333;
+    }
+
+    .btn-hitung:hover {
+      background-color: #ffa000;
+    }
+
+    .btn-reset:hover {
+      background-color: #ccc;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .result {
+      margin-top: 25px;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      color: #388e3c;
+    }
+  </style>
+</head>
+<body>
+  <h1>Kalkulator Makanan</h1>
+  <div class="container">
+    <form id="form">
+      <div id="menu-list"></div>
+      <div class="button-group">
+        <button type="button" class="btn-hitung" onclick="hitungTotal()">Hitung Total</button>
+        <button type="reset" class="btn-reset" onclick="resetForm()">Reset</button>
+      </div>
+    </form>
+    <div class="result" id="hasil"></div>
+  </div>
+
+  <script>
+    const menuData = {
+      "TELOR PUYUH": 3000,
+      "BAKSO": 3000,
+      "ATI AMPELA": 3000,
+      "USUS": 2000,
+      "KULIT": 2000,
+      "CEKER": 2000,
+      "WEDANG JAHE": 5000,
+      "ES TEH": 3000,
+      "KOPI": 5000
+    };
+
+    const menuList = document.getElementById("menu-list");
+
+    // Generate menu inputs
+    Object.entries(menuData).forEach(([menu, harga]) => {
+      const div = document.createElement("div");
+      div.className = "menu-item";
+      div.innerHTML = `
+        <span>${menu} - Rp${harga.toLocaleString("id-ID")}:</span>
+        <input type="number" min="0" id="${menu}" placeholder="0" />
+      `;
+      menuList.appendChild(div);
+    });
+
+    function hitungTotal() {
+      let total = 0;
+      Object.entries(menuData).forEach(([menu, harga]) => {
+        const jumlah = parseInt(document.getElementById(menu).value) || 0;
+        total += harga * jumlah;
+      });
+
+      document.getElementById("hasil").innerText =
+        total > 0 ? `Total Bayar: Rp${total.toLocaleString("id-ID")}` : "Tidak ada pesanan.";
+    }
+
+    function resetForm() {
+      document.getElementById("hasil").innerText = "";
+    }
+  </script>
+</body>
+</html>
